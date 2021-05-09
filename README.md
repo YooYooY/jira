@@ -1,62 +1,80 @@
 # Jira
 
-## 准备
+## 本地 node 服务器
 
-配置[prettier](https://prettier.io/docs/en/install.html)
+[json-server](https://github.com/typicode/json-server)
 
-```sh
-npm install --save-dev --save-exact prettier
-```
-
-添加`.prettierrc.json`和`.prettierignore`
-
-配置 `Git hooks`，安装`lint-staged`:
+全局安装:
 
 ```sh
- npx mrm lint-staged
+`npm install -g json-server`
 ```
 
-package.json 配置：
+新建`db.json`并输入下面内容：
 
 ```json
 {
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,css,md,ts,tsx}": "prettier --write"
-  }
+  "posts": [{ "id": 1, "title": "json-server", "author": "typicode" }],
+  "comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
+  "profile": { "name": "typicode" }
 }
 ```
 
-解决 eslint 和 prettier 冲突，安装`eslint-config-prettier`:
+启动服务：
 
 ```sh
-npm i eslint-config-prettier -D
+json-server --watch db.json
 ```
 
-`package.json`添加 eslnt 扩展规则：
+查询`http://localhost:3000/posts/1`:
 
 ```json
-{
-  "eslintConfig": {
-    "extends": ["react-app", "react-app/jest", "prettier"]
-  }
-}
+{ "id": 1, "title": "json-server", "author": "typicode" }
 ```
 
-配置提交规范：
+Restful API 操作：
 
-安装[commitlint](https://github.com/conventional-changelog/commitlint):
-
-```sh
-npm i @commitlint/{config-conventional,cli} -D
+```
+GET    /posts
+GET    /posts/1
+POST   /posts
+PUT    /posts/1
+PATCH  /posts/1
+DELETE /posts/1
 ```
 
-配置`commitlint.config.js`:
+属性查询：
 
-```sh
-echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
+```
+GET /posts?title=json-server&author=typicode
+GET /posts?id=1&id=2
+GET /comments?author.name=typicode
+```
+
+分页查询：
+
+```
+GET /posts?_page=7
+GET /posts?_page=7&_limit=20
+```
+
+排序：
+
+```
+GET /posts?_sort=views&_order=asc
+GET /posts/1/comments?_sort=votes&_order=asc
+```
+
+截取：
+
+```
+GET /posts?_start=20&_end=30
+GET /posts/1/comments?_start=20&_end=30
+GET /posts/1/comments?_start=20&_limit=10
+```
+
+全局查询：
+
+```
+GET /posts?q=internet
 ```
