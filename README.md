@@ -1,46 +1,62 @@
-# Getting Started with Create React App
+# Jira
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 准备
 
-## Available Scripts
+配置[prettier](https://prettier.io/docs/en/install.html)
 
-In the project directory, you can run:
+```sh
+npm install --save-dev --save-exact prettier
+```
 
-### `npm start`
+添加`.prettierrc.json`和`.prettierignore`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+配置 `Git hooks`，安装`lint-staged`:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```sh
+ npx mrm lint-staged
+```
 
-### `npm test`
+package.json 配置：
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```json
+{
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,tsx}": "prettier --write"
+  }
+}
+```
 
-### `npm run build`
+解决 eslint 和 prettier 冲突，安装`eslint-config-prettier`:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```sh
+npm i eslint-config-prettier -D
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`package.json`添加 eslnt 扩展规则：
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```json
+{
+  "eslintConfig": {
+    "extends": ["react-app", "react-app/jest", "prettier"]
+  }
+}
+```
 
-### `npm run eject`
+配置提交规范：
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+安装[commitlint](https://github.com/conventional-changelog/commitlint):
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```sh
+npm i @commitlint/{config-conventional,cli} -D
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+配置`commitlint.config.js`:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```sh
+echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
+```
