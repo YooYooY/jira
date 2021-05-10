@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import ProjectListScreen from "./project-list";
+// import ProjectListScreen from "./project-list";
+import TestUseArray from "./test-use-array";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ProjectListScreen />
+    <TestUseArray />
   </React.StrictMode>,
   document.getElementById("root")
 );
