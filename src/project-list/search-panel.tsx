@@ -1,6 +1,7 @@
-import React, { useCallback, memo } from "react";
+import React, { FC, useCallback, memo } from "react";
+import { SearchProps } from "./typing";
 
-const SearchPanel = memo(({ param, setParam, users }) => {
+const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
   const handleChange = useCallback(
     (e) => {
       const personId = e.target.value;

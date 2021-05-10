@@ -1,8 +1,7 @@
-import React, { memo } from "react";
+import React, { FC, memo } from "react";
+import { ListProps } from "./typing";
 
-const List = memo(({ list, users }) => {
-  console.log(list.length);
-  
+const List: FC<ListProps> = memo(({ list, users }) => {
   return (
     <table>
       <thead>

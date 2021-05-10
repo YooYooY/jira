@@ -5,21 +5,28 @@ import { cleanObject } from "../utils";
 import { useMount } from "../hooks/useMount";
 import { useDebounce } from "../hooks/useDebounce";
 import { useFetch } from "../hooks/useFetch";
+import { UserProps, PropjectProps } from "./typing";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const ProjectListScreen = () => {
-  const [users, setUsers] = useState([]);
-  const [param, setParam] = useState({ name: "", personId: "" });
+  const [users, setUsers] = useState<Array<UserProps>>([]);
+  const [param, setParam] = useState<PropjectProps>({
+    id: "",
+    name: "",
+    personId: "",
+  });
 
   const queryStr = useDebounce(
     useMemo(() => cleanObject(param), [param]),
     300
   );
 
-  const { result: list, loading } = useFetch(`${apiUrl}/projects?${queryStr}`, [
-    queryStr,
-  ]);
+  const { result: list, loading } = useFetch<PropjectProps[]>(
+    `${apiUrl}/projects?${queryStr}`,
+    [],
+    [queryStr]
+  );
 
   useMount(() => {
     fetch(`${apiUrl}/users`).then(async (reps) => {

@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
 
-export const useFetch = (url, deps = []) => {
-  const [result, setResult] = useState([]);
+interface FetchResult<T> {
+  result: T;
+  loading: boolean;
+}
+
+export const useFetch = <T>(
+  url: string,
+  initState: T,
+  deps: any[]
+): FetchResult<T> => {
+  const [result, setResult] = useState<T>(initState);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
