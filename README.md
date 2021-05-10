@@ -1,80 +1,75 @@
 # Jira
 
-## 本地 node 服务器
+## 自定义 Hooks
 
-[json-server](https://github.com/typicode/json-server)
+### useMount
 
-全局安装:
+> 页面初始化渲染，更语义化
 
-```sh
-`npm install -g json-server`
+```js
+import { useEffect } from "react";
+
+export const useMount = (callback) => {
+  useEffect(() => {
+    callback();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+};
 ```
 
-新建`db.json`并输入下面内容：
+### useDebounce
 
-```json
-{
-  "posts": [{ "id": 1, "title": "json-server", "author": "typicode" }],
-  "comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
-  "profile": { "name": "typicode" }
-}
+> debounce 函数，加入`immediate`是否立即执行参数，还想返回定时器是否开始的参数，发现挺鸡肋的，删除掉了
+
+```js
+import { useEffect, useRef, useState } from "react";
+
+export const useDebounce = (value, delay = 300, immediate) => {
+  const [state, setState] = useState(value);
+  const ref = useRef(immediate);
+
+  useEffect(() => {
+    if (!ref.current) {
+      ref.current = true;
+      return;
+    }
+    let timer = setTimeout(() => {
+      setState(value);
+    }, delay);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay]);
+
+  return state;
+};
 ```
 
-启动服务：
+### useFetch
 
-```sh
-json-server --watch db.json
-```
+> 简化请求方法，添加 loading 参数
 
-查询`http://localhost:3000/posts/1`:
+```js
+import { useState, useEffect } from "react";
 
-```json
-{ "id": 1, "title": "json-server", "author": "typicode" }
-```
+export const useFetch = (url, deps = []) => {
+  const [result, setResult] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-Restful API 操作：
+  useEffect(() => {
+    setLoading(true);
+    fetch(url).then(async (reps) => {
+      if (reps.ok) {
+        setResult(await reps.json());
+      }
+      setLoading(false);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [url, ...deps]);
 
-```
-GET    /posts
-GET    /posts/1
-POST   /posts
-PUT    /posts/1
-PATCH  /posts/1
-DELETE /posts/1
-```
-
-属性查询：
-
-```
-GET /posts?title=json-server&author=typicode
-GET /posts?id=1&id=2
-GET /comments?author.name=typicode
-```
-
-分页查询：
-
-```
-GET /posts?_page=7
-GET /posts?_page=7&_limit=20
-```
-
-排序：
-
-```
-GET /posts?_sort=views&_order=asc
-GET /posts/1/comments?_sort=votes&_order=asc
-```
-
-截取：
-
-```
-GET /posts?_start=20&_end=30
-GET /posts/1/comments?_start=20&_end=30
-GET /posts/1/comments?_start=20&_limit=10
-```
-
-全局查询：
-
-```
-GET /posts?q=internet
+  return {
+    result,
+    loading,
+  };
+};
 ```
