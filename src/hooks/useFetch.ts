@@ -1,4 +1,4 @@
-import { useAuth } from "context/auth-context";
+import { useAuth } from "../context/auth-context";
 import { useState, useEffect } from "react";
 
 interface FetchResult<T> {
@@ -24,7 +24,7 @@ export const useFetch = <T>(
     setLoading(true);
     fetch(url, {
       headers: {
-        Authorization: `bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     }).then(async (reps) => {
       if (reps.ok) {

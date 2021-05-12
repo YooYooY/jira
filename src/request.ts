@@ -1,4 +1,4 @@
-import { cleanObject } from "utils";
+import { cleanObject } from "./utils";
 
 type Method = "get" | "post" | "delete" | "patch" | "put";
 const methods: Method[] = ["get", "post", "delete", "patch", "put"];

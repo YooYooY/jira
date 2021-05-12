@@ -34,10 +34,12 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
+    "@types/qs": "^6.9.6",
     "eslint-config-prettier": "^8.3.0",
     "husky": "^6.0.0",
     "jira-dev-tool": "^1.5.1",
     "lint-staged": "^11.0.0",
+    "module-alias": "^2.2.2",
     "prettier": "2.2.1"
   },
   "dependencies": {
@@ -65,5 +67,8 @@
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "_moduleAliases": {
+    "@/*": "src/*"
   }
 }
