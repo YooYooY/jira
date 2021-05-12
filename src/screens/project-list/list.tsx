@@ -1,5 +1,5 @@
 import React, { FC, memo } from "react";
-import { ListProps } from "./typing";
+import { ListProps } from "../../typing";
 
 const List: FC<ListProps> = memo(({ list, users }) => {
   return (

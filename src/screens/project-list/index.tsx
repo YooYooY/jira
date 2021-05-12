@@ -5,13 +5,13 @@ import { cleanObject } from "../../utils";
 import { useMount } from "../../hooks/useMount";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useFetch } from "../../hooks/useFetch";
-import { UserProps, PropjectProps } from "./typing";
+import { User, Project } from "../../typing";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const ProjectListScreen = () => {
-  const [users, setUsers] = useState<Array<UserProps>>([]);
-  const [param, setParam] = useState<PropjectProps>({
+export const ProjectListScreen = () => {
+  const [users, setUsers] = useState<Array<User>>([]);
+  const [param, setParam] = useState<Project>({
     id: "",
     name: "",
     personId: "",
@@ -22,7 +22,7 @@ const ProjectListScreen = () => {
     300
   );
 
-  const { result: list, loading } = useFetch<PropjectProps[]>(
+  const { result: list, loading } = useFetch<Project[]>(
     `${apiUrl}/projects?${queryStr}`,
     [],
     [queryStr]
@@ -43,5 +43,3 @@ const ProjectListScreen = () => {
     </div>
   );
 };
-
-export default ProjectListScreen;

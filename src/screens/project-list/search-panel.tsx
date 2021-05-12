@@ -1,5 +1,5 @@
 import React, { FC, useCallback, memo } from "react";
-import { SearchProps } from "./typing";
+import { SearchProps } from "../../typing";
 
 const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
   const handleChange = useCallback(
