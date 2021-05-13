@@ -1,0 +1,77 @@
+.cv-select {
+  position: relative;
+  &-active {
+    .cv-select-button {
+      color: @primary-color;
+      border-color: @primary-color;
+      box-shadow: 0 0 5px @primary-color;
+    }
+    .cv-select-list {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .cv-select-arrow {
+      border-color: @primary-color;
+      transform: rotate(135deg) translate(5px, -2.5px);
+    }
+  }
+
+  &-button {
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    padding: 0 10px;
+    line-height: 30px;
+    transition: 0.3s;
+    background-color: #fff;
+    position: relative;
+    z-index: 2;
+    &:hover {
+      color: @primary-color;
+      border-color: @primary-color;
+      .cv-select-arrow {
+        border-color: @primary-color;
+      }
+    }
+  }
+
+  &-arrow {
+    top: 8px;
+    right: 10px;
+    width: 10px;
+    height: 10px;
+    transition: 0.2s;
+    border-left: 2px solid #ddd;
+    border-bottom: 2px solid #ddd;
+    position: absolute;
+    transform: rotate(-45deg);
+  }
+
+  &-list {
+    left: 0;
+    top: 100%;
+    width: 100%;
+    margin-top: 5px;
+    position: absolute;
+    border: 1px solid #eee;
+    background-color: #fff;
+    box-shadow: 2px 2px 10px #ddd;
+    opacity: 0;
+    transition: 0.2s;
+    transform: translateY(-20%);
+  }
+  &-item {
+    padding: 10px;
+    color: #999;
+    white-space: nowrap;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    &:last-child {
+      border-bottom: none;
+    }
+    &:hover,
+    &-active {
+      color: @primary-color;
+      background-color: #fefefe;
+    }
+  }
+}

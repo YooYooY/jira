@@ -4,14 +4,15 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import { loadDevTools } from "jira-dev-tool";
-import { AuthProvider } from "./context/auth-context";
+import { AppProviders } from "./context";
+import "antd/dist/antd.less";
 
 loadDevTools(() =>
   ReactDOM.render(
     <React.StrictMode>
-      <AuthProvider>
+      <AppProviders>
         <App />
-      </AuthProvider>
+      </AppProviders>
     </React.StrictMode>,
     document.getElementById("root")
   )

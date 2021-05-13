@@ -1,10 +1,13 @@
 import React, { FC, useCallback, memo } from "react";
 import { SearchProps } from "../../typing";
+import { Input } from "antd";
+import Select from "../../components/Select";
+
+const { Option } = Select;
 
 const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
   const handleChange = useCallback(
-    (e) => {
-      const personId = e.target.value;
+    ({ value: personId }) => {
       setParam((param) => ({ ...param, personId }));
     },
     [setParam]
@@ -12,7 +15,7 @@ const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
 
   return (
     <form action="">
-      <input
+      <Input
         type="text"
         value={param.name}
         onChange={(e) =>
@@ -22,14 +25,14 @@ const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
           })
         }
       />
-      <select value={param.personId} onChange={handleChange}>
-        <option value="">负责人</option>
+      <Select width={150} value={param.personId} onChange={handleChange}>
+        <Option value="">负责人</Option>
         {users.map((user) => (
-          <option key={user.id} value={user.id}>
+          <Option key={user.id} value={user.id}>
             {user.name}
-          </option>
+          </Option>
         ))}
-      </select>
+      </Select>
     </form>
   );
 });

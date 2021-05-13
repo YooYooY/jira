@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { AuthForm, User } from "../typing";
 import * as auth from "../auth-provider";
 import { http } from "../utils/http";
@@ -38,9 +38,10 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
   });
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider
+      children={children}
+      value={{ user, login, register, logout }}
+    />
   );
 };
 

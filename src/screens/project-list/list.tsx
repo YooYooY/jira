@@ -1,26 +1,29 @@
 import React, { FC, memo } from "react";
+import Table from "../../components/Table/Table";
 import { ListProps } from "../../typing";
 
 const List: FC<ListProps> = memo(({ list, users }) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>名称</th>
-          <th>负责人</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map((project) => (
-          <tr key={project.id}>
-            <td>{project.name}</td>
-            <td>
-              {users.find((user) => user.id === project.personId)?.name || "--"}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table
+      columns={[
+        {
+          title: "名称",
+          dataIndex: "name",
+        },
+        {
+          title: "负责人",
+          render(value, project) {
+            return (
+              <span>
+                {users.find((user) => user.id === project.personId)?.name ||
+                  "未知"}
+              </span>
+            );
+          },
+        },
+      ]}
+      dataSource={list}
+    />
   );
 });
 
