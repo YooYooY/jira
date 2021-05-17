@@ -1,8 +1,8 @@
-import { useAuth } from "../context/auth-context";
 import React, { FC } from "react";
 import { Form, Input } from "antd";
 import { LongButton } from "./style";
 import useAsync from "hooks/useAsync";
+import { useAuth } from "hooks/useAuth";
 
 interface LoginProps {
   onError: (error: Error) => void;

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useAuth } from "../context/auth-context";
+import { useAuth } from "hooks/useAuth";
 import { Form, Input } from "antd";
 import { LongButton } from "./style";
 import useAsync from "hooks/useAsync";

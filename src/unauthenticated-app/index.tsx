@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { RegisterScreen } from "./register";
 import { LoginScreen } from "./login";
+import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { Divider, Button, Typography } from "antd";
 import { Container, Header, Background, ShadowCard, Title } from "./style";
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  useDocumentTitle("请登录注册以继续");
 
   return (
     <Container>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { createContext } from "react";
 import { AuthForm, User } from "../typing";
 import * as auth from "../auth-provider";
 import { http } from "../utils/http";
@@ -23,7 +23,7 @@ const bootstrapUser = async () => {
   return user;
 };
 
-const AuthContext = React.createContext<AuthContextProps | undefined>(
+export const AuthContext = createContext<AuthContextProps | undefined>(
   undefined
 );
 AuthContext.displayName = "AuthContext";
@@ -56,12 +56,4 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
       value={{ user, login, register, logout }}
     />
   );
-};
-
-export const useAuth = () => {
-  const context = React.useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth 必须在AuthProvider中使用");
-  }
-  return context;
 };

@@ -1,15 +1,12 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState } from "react";
 import SearchPanel from "./search-panel";
 import List from "./list";
-import { cleanObject } from "../../utils";
-import { useMount } from "../../hooks/useMount";
 import { useDebounce } from "../../hooks/useDebounce";
-import { User, Project } from "../../typing";
-import { useHttp } from "../../utils/http";
 import styled from "@emotion/styled";
 import { useUser } from "hooks/useUser";
 import { useProjects } from "hooks/useProjects";
 import { Typography } from "antd";
+import { useDocumentTitle } from "hooks/useDocumentTitle";
 
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
@@ -20,6 +17,8 @@ export const ProjectListScreen = () => {
   const { data: users } = useUser();
   const debounceParam = useDebounce(param, 200);
   const { isLoading, error, data: list } = useProjects(debounceParam);
+
+  useDocumentTitle("项目列表", false);
 
   return (
     <Container>

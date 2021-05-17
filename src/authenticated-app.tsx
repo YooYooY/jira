@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { ProjectListScreen } from "./screens/project-list";
-import { useAuth } from "./context/auth-context";
+import { useAuth } from "hooks/useAuth";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { Container, Header, HeaderLeft, HeaderRight, Main } from "./style";
 import { Button, Dropdown, Menu } from "antd";
