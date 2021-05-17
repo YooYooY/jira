@@ -7,8 +7,6 @@ import { useDebounce } from "../../hooks/useDebounce";
 import { User, Project } from "../../typing";
 import { useHttp } from "../../utils/http";
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
 export const ProjectListScreen = () => {
   const [users, setUsers] = useState<Array<User>>([]);
   const [param, setParam] = useState<Project>({

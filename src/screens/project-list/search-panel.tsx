@@ -2,8 +2,13 @@ import React, { FC, useCallback, memo } from "react";
 import { SearchProps } from "../../typing";
 import { Input } from "antd";
 import Select from "../../components/Select";
+import styled from "@emotion/styled";
 
 const { Option } = Select;
+const Form = styled.form`
+  display: flex;
+  margin-bottom: 2rem;
+`;
 
 const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
   const handleChange = useCallback(
@@ -14,7 +19,7 @@ const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
   );
 
   return (
-    <form action="">
+    <Form>
       <Input
         type="text"
         value={param.name}
@@ -33,7 +38,7 @@ const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
           </Option>
         ))}
       </Select>
-    </form>
+    </Form>
   );
 });
 
