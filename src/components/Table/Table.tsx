@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { Spin } from "antd";
 import "./style.less";
 
 export interface Column<T> {
@@ -16,6 +17,7 @@ export interface DataSource {
 }
 
 export interface TableProps<T> {
+  loading?: boolean;
   columns: Column<T>[];
   dataSource: Array<T & DataSource>;
 }
@@ -23,7 +25,7 @@ export interface TableProps<T> {
 type TableComponentFn = <T>(props: TableProps<T>) => React.ReactElement;
 
 const Table: TableComponentFn = (props) => {
-  const { columns, dataSource } = props;
+  const { columns, dataSource, loading } = props;
 
   const Thead = useMemo(
     () => (
@@ -72,10 +74,23 @@ const Table: TableComponentFn = (props) => {
     [dataSource, columns]
   );
 
+  const Loading = useMemo(
+    () => (
+      <tbody>
+        <tr>
+          <td align="center" colSpan={columns.length}>
+            <Spin />
+          </td>
+        </tr>
+      </tbody>
+    ),
+    [columns]
+  );
+
   return (
     <table className="cv-table">
       {Thead}
-      {Tbody}
+      {loading ? Loading : Tbody}
     </table>
   );
 };

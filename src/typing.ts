@@ -28,8 +28,9 @@ export interface ListProps {
   users: User[];
 }
 
+type SearchParam = Pick<Project, "name" | "personId">;
 export interface SearchProps {
-  param: Project;
-  setParam: Dispatch<SetStateAction<Project>>;
+  param: SearchParam;
+  setParam: Dispatch<SetStateAction<SearchParam>>;
   users: User[];
 }
