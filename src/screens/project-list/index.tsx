@@ -6,6 +6,7 @@ import { useMount } from "../../hooks/useMount";
 import { useDebounce } from "../../hooks/useDebounce";
 import { User, Project } from "../../typing";
 import { useHttp } from "../../utils/http";
+import styled from "@emotion/styled";
 
 export const ProjectListScreen = () => {
   const [users, setUsers] = useState<Array<User>>([]);
@@ -13,6 +14,9 @@ export const ProjectListScreen = () => {
     id: "",
     name: "",
     personId: "",
+    pin: false,
+    organization: "",
+    created: 0,
   });
   const [list, setList] = useState([]);
   const client = useHttp();
@@ -23,18 +27,23 @@ export const ProjectListScreen = () => {
   );
 
   useEffect(() => {
-    client("projects", { data: queryStr }).then(setList);
+    client<[]>("projects", { data: queryStr }).then(setList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryStr]);
 
   useMount(() => {
-    client("users").then(setUsers);
+    client<[]>("users").then(setUsers);
   });
 
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel param={param} users={users} setParam={setParam} />
       <List users={users} list={list} />
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;

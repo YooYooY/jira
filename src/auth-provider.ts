@@ -1,7 +1,6 @@
 import { AuthForm, User } from "./typing";
-import { request } from "./request";
+import { http } from "utils/http";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const localStorageKey = "__auth_provider_token__";
 
 export const getToken = () => window.localStorage.getItem(localStorageKey);
@@ -16,12 +15,12 @@ export const handleUserResponse = ({ user }: Result) => {
 };
 
 export const login = async (data: AuthForm) => {
-  const result = await request.post<Result>(`${apiUrl}/login`, data);
+  const result = await http<Result>(`login`, { method: "post", data });
   return handleUserResponse(result);
 };
 
 export const register = async (data: AuthForm) => {
-  const result = await request.post<Result>(`${apiUrl}/register`, data);
+  const result = await http<Result>(`register`, { method: "post", data });
   return handleUserResponse(result);
 };
 

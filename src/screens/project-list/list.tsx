@@ -1,6 +1,7 @@
 import React, { FC, memo } from "react";
 import Table from "../../components/Table/Table";
 import { ListProps } from "../../typing";
+import dayjs from "dayjs";
 
 const List: FC<ListProps> = memo(({ list, users }) => {
   return (
@@ -11,12 +12,28 @@ const List: FC<ListProps> = memo(({ list, users }) => {
           dataIndex: "name",
         },
         {
+          title: "部门",
+          dataIndex: "organization",
+        },
+        {
           title: "负责人",
           render(value, project) {
             return (
               <span>
                 {users.find((user) => user.id === project.personId)?.name ||
                   "未知"}
+              </span>
+            );
+          },
+        },
+        {
+          title: "创建时间",
+          render(value, project) {
+            return (
+              <span>
+                {project.created
+                  ? dayjs(project.created).format("YYYY-MM-DD")
+                  : "无"}
               </span>
             );
           },

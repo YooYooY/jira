@@ -1,16 +1,19 @@
 import qs from "qs";
 import * as auth from "../auth-provider";
 import { useAuth } from "../context/auth-context";
-const apiUrl = process.env.REACT_APP_API_URL;
+// const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = "";
 
 interface Config extends RequestInit {
   token?: string;
   data?: object | string;
 }
 
-export const http = async (
-  endpoint: string,
-  { token, method, data, ...restConfig }: Config = {}
+type Http = <T>(endpoint: string, config?: Config) => Promise<T>;
+
+export const http: Http = async (
+  endpoint,
+  { token, method, data, ...restConfig } = {}
 ) => {
   const config = {
     method: method || "GET",
@@ -38,8 +41,8 @@ export const http = async (
       return Promise.reject({ message: "请重新登录" });
     }
 
-    const data = await response.json();
     if (response.ok) {
+      const data = await response.json();
       return data;
     } else {
       return Promise.reject(data);
@@ -47,12 +50,10 @@ export const http = async (
   });
 };
 
-export type UseHttp = () => (
-  ...args: Parameters<typeof http>
-) => ReturnType<typeof http>;
+export type UseHttp = () => <T>(...args: Parameters<typeof http>) => Promise<T>;
 
 export const useHttp: UseHttp = () => {
   const { user } = useAuth();
-  return (...[endpoint, config]) =>
+  return (...[endpoint, config]: [string, Config?]) =>
     http(endpoint, { token: user?.token, ...config });
 };
