@@ -16,6 +16,7 @@
       "prettier"
     ],
     "rules": {
+      "jsx-a11y/anchor-is-valid": "off",
       "@typescript-eslint/no-unused-vars": "off"
     }
   },
@@ -35,6 +36,8 @@
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
     "@craco/craco": "^6.1.2",
+    "@emotion/react": "^11.4.0",
+    "@emotion/styled": "^11.3.0",
     "@types/qs": "^6.9.6",
     "craco-less": "^1.17.1",
     "eslint-config-prettier": "^8.3.0",

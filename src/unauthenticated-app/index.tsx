@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 import { RegisterScreen } from "./register";
 import { LoginScreen } from "./login";
-import { Card } from "antd";
+import { Divider } from "antd";
+import { Container, Header, Background, ShadowCard, Title } from "./style";
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <Card>
+    <Container>
+      <Header />
+      <Background />
+      <ShadowCard>
+        <Title>{isRegister ? "请注册" : "请登录"}</Title>
         {isRegister ? <RegisterScreen /> : <LoginScreen />}
-        <button onClick={() => setIsRegister(!isRegister)}>
-          切换到{isRegister ? "登录" : "注册"}
-        </button>
-      </Card>
-    </div>
+        <Divider />
+        <a onClick={() => setIsRegister(!isRegister)}>
+          {isRegister ? "已经有账号了？直接登录" : "没有账号？注册新账号"}
+        </a>
+      </ShadowCard>
+    </Container>
   );
 };
