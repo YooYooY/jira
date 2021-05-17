@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
 interface State<D> {
   error: Error | null;
@@ -12,7 +12,18 @@ const defaultInitialState: State<null> = {
   error: null,
 };
 
-const useAsync = <D>(initState?: State<D>) => {
+const defaultConfig = {
+  throwOnError: false,
+};
+
+const useAsync = <D>(
+  initState?: State<D>,
+  initConfig?: typeof defaultConfig
+) => {
+  const config = useMemo(() => ({ ...defaultConfig, ...initConfig }), [
+    initConfig,
+  ]);
+
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initState,
@@ -47,10 +58,11 @@ const useAsync = <D>(initState?: State<D>) => {
         })
         .catch((error) => {
           setError(error);
+          if (config.throwOnError) return Promise.reject(error);
           return error;
         });
     },
-    [setData, setError]
+    [setData, setError, config]
   );
 
   return {

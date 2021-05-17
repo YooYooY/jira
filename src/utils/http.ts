@@ -41,8 +41,9 @@ export const http: Http = async (
       return Promise.reject({ message: "请重新登录" });
     }
 
+    const data = await response.json();
+
     if (response.ok) {
-      const data = await response.json();
       return data;
     } else {
       return Promise.reject(data);
