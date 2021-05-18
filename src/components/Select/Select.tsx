@@ -10,6 +10,7 @@ import React, {
   useState,
   createContext,
   useRef,
+  useEffect,
 } from "react";
 
 export interface SelectProps {
@@ -72,7 +73,8 @@ const Select: FC<SelectProps> = ({
         if (isValidElement(child)) {
           const { displayName } = child.type as FunctionComponent;
           const { value: defaultValue, children, label } = child.props;
-          if (value === defaultValue) {
+
+          if (String(value) === String(defaultValue)) {
             setState((state) => ({
               ...state,
               label: label ? label : children,
@@ -90,9 +92,7 @@ const Select: FC<SelectProps> = ({
     [children, value]
   );
 
-  const selectValue = useMemo(() => {
-    return state.value;
-  }, [state.value]);
+  const selectValue = useMemo(() => state.value, [state.value]);
 
   const contextValue = useMemo(
     () => ({

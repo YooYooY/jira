@@ -31,6 +31,6 @@ export interface ListProps {
 type SearchParam = Pick<Project, "name" | "personId">;
 export interface SearchProps {
   param: SearchParam;
-  setParam: Dispatch<SetStateAction<SearchParam>>;
+  setParam: (param: SearchParam) => void;
   users: User[];
 }

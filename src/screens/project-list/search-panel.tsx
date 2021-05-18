@@ -10,9 +10,9 @@ const { Option } = Select;
 const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
   const handleChange = useCallback(
     ({ value: personId }) => {
-      setParam((param) => ({ ...param, personId }));
+      setParam({ ...param, personId });
     },
-    [setParam]
+    [setParam, param]
   );
 
   return (
@@ -21,6 +21,7 @@ const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
         <Input
           type="text"
           value={param.name}
+          placeholder="请输入名称"
           onChange={(e) =>
             setParam({
               ...param,
