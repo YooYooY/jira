@@ -16,6 +16,8 @@ export const handleUserResponse = ({ user }: Result) => {
 
 export const login = async (data: AuthForm) => {
   const result = await http<Result>(`login`, { method: "post", data });
+  console.log("getUserData");
+
   return handleUserResponse(result);
 };
 

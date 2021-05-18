@@ -2,6 +2,7 @@ import React, { FC, memo } from "react";
 import Table from "../../components/Table/Table";
 import { ListProps } from "../../typing";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 const List: FC<ListProps & { loading: boolean }> = memo(
   ({ list, users, loading }) => {
@@ -12,6 +13,9 @@ const List: FC<ListProps & { loading: boolean }> = memo(
           {
             title: "名称",
             dataIndex: "name",
+            render(value, project) {
+              return <Link to={String(project.id)}>{project.name}</Link>;
+            },
           },
           {
             title: "部门",
