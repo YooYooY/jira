@@ -4,3 +4,5 @@ export const cleanObject = (obj: Record<string, any>): string => {
     .filter(Boolean)
     .join("&");
 };
+
+export const resetRoute = () => (window.location.href = window.location.origin);

@@ -7,6 +7,7 @@ import { useUser } from "hooks/useUser";
 import { useProjects } from "hooks/useProjects";
 import { Typography } from "antd";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
+import { useUrlQueryParam } from "hooks/useUrlQueryParam";
 
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
@@ -19,6 +20,10 @@ export const ProjectListScreen = () => {
   const { isLoading, error, data: list } = useProjects(debounceParam);
 
   useDocumentTitle("项目列表", false);
+
+  const params = useUrlQueryParam(["name", "age"]);
+
+  console.log(params.name);
 
   return (
     <Container>
