@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Project } from "typing";
 import { cleanObject } from "utils";
 import { useHttp } from "utils/http";
@@ -12,5 +12,5 @@ export const useProjects = (param?: Partial<Project>) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [param]);
 
-  return result;
+  return useMemo(() => result, [result]);
 };

@@ -1,8 +1,11 @@
 import { useSearchParams } from "react-router-dom";
-import { useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
+import { cleanObject } from "utils";
 
 type QueryReturnParam<T extends string> = Record<T, string>;
-type QuerySetSearchParam<T extends string> = (param: Record<T, string>) => void;
+type QuerySetSearchParam<T extends string> = (
+  param: Partial<{ [key in T]: unknown }>
+) => void;
 
 export const useUrlQueryParam = <T extends string>(
   keys: T[]
@@ -10,14 +13,21 @@ export const useUrlQueryParam = <T extends string>(
   const keysRef = useRef(keys);
   const [searchParams, setSearchParam] = useSearchParams();
 
+  const setParam = useCallback(
+    (params: Partial<{ [key in T]: unknown }>) => {
+      setSearchParam(cleanObject(params));
+    },
+    [setSearchParam]
+  );
+
   return useMemo(
     () => [
       keysRef.current.reduce(
         (total, key) => ({ ...total, [key]: searchParams.get(key) || "" }),
         {} as QueryReturnParam<T>
       ),
-      setSearchParam,
+      setParam,
     ],
-    [keysRef, searchParams, setSearchParam]
+    [keysRef, searchParams, setParam]
   );
 };
