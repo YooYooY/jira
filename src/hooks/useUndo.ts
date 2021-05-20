@@ -1,50 +1,74 @@
 import { useState, useCallback, useMemo } from "react";
 
-export const useUndo = <T>(initialPresent: T) => {
-  const [past, setPast] = useState<T[]>([]);
-  const [present, setPresent] = useState(initialPresent);
-  const [future, setFuture] = useState<T[]>([]);
+interface UndoState<T> {
+  past: T[];
+  present: T;
+  future: T[];
+}
 
-  const canUndo = useMemo(() => past.length !== 0, [past]);
-  const canRedo = useMemo(() => future.length !== 0, [future]);
+export const useUndo = <T>(initialPresent: T) => {
+  const [state, setState] = useState<UndoState<T>>({
+    past: [],
+    present: initialPresent,
+    future: [],
+  });
+
+  const canUndo = useMemo(() => state.past.length !== 0, [state.past]);
+  const canRedo = useMemo(() => state.future.length !== 0, [state.future]);
 
   const undo = useCallback(() => {
-    if (!canUndo) return;
-    const previous = past[past.length - 1];
-    const newPast = past.slice(0, past.length - 1);
-    setPast(newPast);
-    setPresent(previous);
-    setFuture([present, ...future]);
-  }, [past, canUndo, present, future]);
+    setState((currentState) => {
+      const { past, present, future } = currentState;
+      if (past.length === 0) return currentState;
 
-  const redo = useCallback(() => {
-    if (!canRedo) return;
-    const next = future[0];
-    const newFuture = future.slice(1);
-
-    setPast([...past, present]);
-    setPresent(next);
-    setFuture(newFuture);
-  }, [past, canRedo, present, future]);
-
-  const set = useCallback(
-    (newPresent: T) => {
-      if (newPresent === present) return;
-      setPast([...past, present]);
-      setPresent(newPresent);
-      setFuture([]);
-    },
-    [past, present]
-  );
-
-  const reset = useCallback((newPresent: T) => {
-    setPast([]);
-    setPresent(newPresent);
-    setFuture([]);
+      const previous = past[past.length - 1];
+      const newPast = past.slice(0, past.length - 1);
+      return {
+        past: newPast,
+        present: previous,
+        future: [present, ...future],
+      };
+    });
   }, []);
 
-  return [
-    { past, present, future },
-    { set, reset, undo, redo, canUndo, canRedo },
-  ];
+  const redo = useCallback(() => {
+    setState((currentState) => {
+      const { past, present, future } = currentState;
+      if (future.length === 0) return currentState;
+
+      const next = future[0];
+      const newFuture = future.slice(1);
+
+      return {
+        past: [...past, present],
+        present: next,
+        future: newFuture,
+      };
+    });
+  }, []);
+
+  const set = useCallback((newPresent: T) => {
+    setState((currentState) => {
+      const { past, present } = currentState;
+      if (newPresent === present) return currentState;
+
+      return {
+        past: [...past, present],
+        present: newPresent,
+        future: [],
+      };
+    });
+  }, []);
+
+  const reset = useCallback((newPresent: T) => {
+    setState(() => {
+      return {
+        past: [],
+        present: newPresent,
+        future: [],
+      };
+    });
+  }, []);
+
+  return [state, { set, reset, undo, redo, canUndo, canRedo }] as const;
 };
