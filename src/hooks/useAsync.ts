@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
+import { useMountedRef } from "./useMountedRef";
 
 interface State<D> {
   error: Error | null;
@@ -23,7 +24,7 @@ const useAsync = <D>(
   const config = useMemo(() => ({ ...defaultConfig, ...initConfig }), [
     initConfig,
   ]);
-
+  const mountedRef = useMountedRef();
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initState,
@@ -60,7 +61,7 @@ const useAsync = <D>(
       setState((state) => ({ ...state, stat: "loading" }));
       return promise
         .then((data) => {
-          setData(data);
+          if (mountedRef.current) setData(data);
           return data;
         })
         .catch((error) => {
@@ -69,7 +70,7 @@ const useAsync = <D>(
           return error;
         });
     },
-    [setData, setError, config]
+    [setData, setError, config, mountedRef]
   );
 
   return {
