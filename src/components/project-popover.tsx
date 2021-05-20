@@ -5,14 +5,14 @@ import { useProjects } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
 
 interface ProjectPopoverProps {
-  setProjectModalOpen: (isOpen: boolean) => void;
+  projectButton: React.ReactNode;
 }
 
 const ContainerContainer = styled.div`
   min-width: 30rem;
 `;
 
-const ProjectPopover: FC<ProjectPopoverProps> = ({ setProjectModalOpen }) => {
+const ProjectPopover: FC<ProjectPopoverProps> = ({ projectButton }) => {
   const { data: projects } = useProjects();
   const pinnedProjects = projects?.filter((project) => project.pin);
 
@@ -27,9 +27,7 @@ const ProjectPopover: FC<ProjectPopoverProps> = ({ setProjectModalOpen }) => {
         ))}
       </List>
       <Divider />
-      <ButtonNoPadding onClick={() => setProjectModalOpen(true)} type="link">
-        创建项目
-      </ButtonNoPadding>
+      {projectButton}
     </ContainerContainer>
   );
 

@@ -13,11 +13,11 @@ export interface ListProps {
   users: User[];
   loading: boolean;
   refresh?: () => void;
-  setProjectModalOpen: (isOpen: boolean) => void;
+  projectButton: React.ReactNode;
 }
 
 const List: FC<ListProps> = memo((props) => {
-  const { list, users, loading, refresh, setProjectModalOpen } = props;
+  const { list, users, loading, refresh, projectButton } = props;
   const { mutate } = useEditProject();
   const pinProject = useCallback(
     (id: string) => (pin: boolean) => {
@@ -30,18 +30,11 @@ const List: FC<ListProps> = memo((props) => {
     (project) => {
       return (
         <Menu>
-          <Menu.Item key={"edit"}>
-            <ButtonNoPadding
-              type={"link"}
-              onClick={() => setProjectModalOpen(true)}
-            >
-              编辑
-            </ButtonNoPadding>
-          </Menu.Item>
+          <Menu.Item key={"edit"}>{projectButton}</Menu.Item>
         </Menu>
       );
     },
-    [setProjectModalOpen]
+    [projectButton]
   );
 
   return (

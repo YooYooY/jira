@@ -5,17 +5,17 @@ import { useDebounce } from "../../hooks/useDebounce";
 import styled from "@emotion/styled";
 import { useUser } from "hooks/useUser";
 import { useProjects } from "utils/project";
-import { Button, Typography } from "antd";
+import { Typography } from "antd";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useUrlQueryParam } from "hooks/useUrlQueryParam";
 import { Row } from "components/lib";
 
 interface ProjectListScreenProps {
-  setProjectModalOpen: (isOpen: boolean) => void;
+  projectButton: React.ReactNode;
 }
 
 export const ProjectListScreen: FC<ProjectListScreenProps> = ({
-  setProjectModalOpen,
+  projectButton,
 }) => {
   const [param, setParam] = useUrlQueryParam(["name", "personId"]);
   const { data: users } = useUser();
@@ -28,14 +28,14 @@ export const ProjectListScreen: FC<ProjectListScreenProps> = ({
     <Container>
       <Row between={true}>
         <h1>项目列表</h1>
-        <Button onClick={() => setProjectModalOpen(true)}>创建项目</Button>
+        {projectButton}
       </Row>
       <SearchPanel param={param} users={users || []} setParam={setParam} />
       {error && (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       )}
       <List
-        setProjectModalOpen={setProjectModalOpen}
+        projectButton={projectButton}
         refresh={retry}
         loading={isLoading}
         users={users || []}

@@ -8,23 +8,28 @@ import { Route, Routes, Navigate } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "screens/project";
 import { resetRoute } from "utils";
-import { ButtonNoPadding, Row } from "components/lib";
+import { ButtonNoPadding } from "components/lib";
 import ProjectModal from "screens/project-list/project-modal";
 import ProjectPopover from "components/project-popover";
 
 export const AuthenticatedApp = () => {
   const [projectModalOpen, setProjectModalOpen] = useState(false);
+
+  const projectBtn = (
+    <ButtonNoPadding onClick={() => setProjectModalOpen(true)} type="link">
+      创建项目
+    </ButtonNoPadding>
+  );
+
   return (
     <Container>
-      <PageHeader setProjectModalOpen={setProjectModalOpen} />
+      <PageHeader projectButton={projectBtn} />
       <Main>
         <Router>
           <Routes>
             <Route
               path="/projects"
-              element={
-                <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
-              }
+              element={<ProjectListScreen projectButton={projectBtn} />}
             />
             <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
             <Navigate to={"/projects"} />
@@ -39,28 +44,26 @@ export const AuthenticatedApp = () => {
   );
 };
 
-const PageHeader = memo(
-  (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
-    const gotoHome = useCallback(() => {
-      resetRoute();
-    }, []);
+const PageHeader = memo((props: { projectButton: React.ReactNode }) => {
+  const gotoHome = useCallback(() => {
+    resetRoute();
+  }, []);
 
-    return (
-      <Header between={true}>
-        <HeaderLeft gap={true}>
-          <ButtonNoPadding type={"link"} onClick={gotoHome}>
-            <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
-          </ButtonNoPadding>
-          <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
-          <h2>用户</h2>
-        </HeaderLeft>
-        <HeaderRight>
-          <User />
-        </HeaderRight>
-      </Header>
-    );
-  }
-);
+  return (
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        <ButtonNoPadding type={"link"} onClick={gotoHome}>
+          <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
+        </ButtonNoPadding>
+        <ProjectPopover {...props} />
+        <h2>用户</h2>
+      </HeaderLeft>
+      <HeaderRight>
+        <User />
+      </HeaderRight>
+    </Header>
+  );
+});
 
 const User = memo(() => {
   const { logout, user } = useAuth();
