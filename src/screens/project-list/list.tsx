@@ -1,18 +1,47 @@
 import React, { FC, memo, useCallback } from "react";
 import Table from "../../components/Table/Table";
-import { ListProps } from "../../typing";
+import { Project, User } from "../../typing";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { useEditProject } from "utils/project";
 import Pin from "components/pin";
+import { Dropdown, Menu } from "antd";
+import { ButtonNoPadding } from "components/lib";
 
-const List: FC<ListProps> = memo(({ list, users, loading, refresh }) => {
+export interface ListProps {
+  list: Project[];
+  users: User[];
+  loading: boolean;
+  refresh?: () => void;
+  setProjectModalOpen: (isOpen: boolean) => void;
+}
+
+const List: FC<ListProps> = memo((props) => {
+  const { list, users, loading, refresh, setProjectModalOpen } = props;
   const { mutate } = useEditProject();
   const pinProject = useCallback(
     (id: string) => (pin: boolean) => {
       mutate({ id, pin }).then(() => refresh && refresh());
     },
     [mutate, refresh]
+  );
+
+  const DropMemu = useCallback(
+    (project) => {
+      return (
+        <Menu>
+          <Menu.Item key={"edit"}>
+            <ButtonNoPadding
+              type={"link"}
+              onClick={() => setProjectModalOpen(true)}
+            >
+              编辑
+            </ButtonNoPadding>
+          </Menu.Item>
+        </Menu>
+      );
+    },
+    [setProjectModalOpen]
   );
 
   return (
@@ -61,6 +90,15 @@ const List: FC<ListProps> = memo(({ list, users, loading, refresh }) => {
                   ? dayjs(project.created).format("YYYY-MM-DD")
                   : "无"}
               </span>
+            );
+          },
+        },
+        {
+          render(_value, project) {
+            return (
+              <Dropdown overlay={DropMemu(project)}>
+                <ButtonNoPadding type={"link"}>...</ButtonNoPadding>
+              </Dropdown>
             );
           },
         },
