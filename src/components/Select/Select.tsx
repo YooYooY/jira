@@ -10,7 +10,6 @@ import React, {
   useState,
   createContext,
   useRef,
-  useEffect,
 } from "react";
 
 export interface SelectProps {

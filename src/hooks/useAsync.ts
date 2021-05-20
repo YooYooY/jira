@@ -29,6 +29,8 @@ const useAsync = <D>(
     ...initState,
   });
 
+  const [retry, setRetry] = useState(() => () => {});
+
   const setData = useCallback((data: D) => {
     setState({
       data,
@@ -46,10 +48,15 @@ const useAsync = <D>(
   }, []);
 
   const run = useCallback(
-    (promise: Promise<D>) => {
+    (promise: Promise<D>, runConfig: { retry?: () => Promise<D> } = {}) => {
       if (!(promise instanceof Promise)) {
         throw new Error("请传入 Promise 类型数据");
       }
+      setRetry(() => () => {
+        if (runConfig.retry) {
+          run(runConfig.retry(), runConfig);
+        }
+      });
       setState((state) => ({ ...state, stat: "loading" }));
       return promise
         .then((data) => {
@@ -73,6 +80,7 @@ const useAsync = <D>(
     run,
     setData,
     setError,
+    retry,
     ...state,
   };
 };

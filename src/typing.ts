@@ -26,6 +26,8 @@ export interface Project {
 export interface ListProps {
   list: Project[];
   users: User[];
+  loading: boolean;
+  refresh?: () => void;
 }
 
 type SearchParam = Pick<Project, "name" | "personId">;

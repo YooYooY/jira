@@ -5,7 +5,7 @@ import "./style.less";
 export interface Column<T> {
   id?: string | number;
   key?: string;
-  title?: string;
+  title?: React.ReactNode;
   dataIndex?: string;
   index?: number;
   render?: (value: any, item: T) => React.ReactElement;
