@@ -13,38 +13,24 @@ import ProjectModal from "screens/project-list/project-modal";
 import ProjectPopover from "components/project-popover";
 
 export const AuthenticatedApp = () => {
-  const [projectModalOpen, setProjectModalOpen] = useState(false);
-
-  const projectBtn = (
-    <ButtonNoPadding onClick={() => setProjectModalOpen(true)} type="link">
-      创建项目
-    </ButtonNoPadding>
-  );
-
   return (
     <Container>
-      <PageHeader projectButton={projectBtn} />
-      <Main>
-        <Router>
+      <Router>
+        <PageHeader />
+        <Main>
           <Routes>
-            <Route
-              path="/projects"
-              element={<ProjectListScreen projectButton={projectBtn} />}
-            />
+            <Route path="/projects" element={<ProjectListScreen />} />
             <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
             <Navigate to={"/projects"} />
           </Routes>
-        </Router>
-      </Main>
-      <ProjectModal
-        projectModalOpen={projectModalOpen}
-        onClose={() => setProjectModalOpen(false)}
-      />
+        </Main>
+        <ProjectModal />
+      </Router>
     </Container>
   );
 };
 
-const PageHeader = memo((props: { projectButton: React.ReactNode }) => {
+const PageHeader = memo(() => {
   const gotoHome = useCallback(() => {
     resetRoute();
   }, []);
@@ -55,7 +41,7 @@ const PageHeader = memo((props: { projectButton: React.ReactNode }) => {
         <ButtonNoPadding type={"link"} onClick={gotoHome}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
-        <ProjectPopover {...props} />
+        <ProjectPopover />
         <h2>用户</h2>
       </HeaderLeft>
       <HeaderRight>

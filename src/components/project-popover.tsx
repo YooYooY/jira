@@ -1,18 +1,16 @@
 import styled from "@emotion/styled";
-import React, { FC } from "react";
+import React, { memo } from "react";
 import { Divider, List, Popover, Typography } from "antd";
 import { useProjects } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
-
-interface ProjectPopoverProps {
-  projectButton: React.ReactNode;
-}
+import { useProjectModal } from "screens/project-list/utils";
 
 const ContainerContainer = styled.div`
   min-width: 30rem;
 `;
 
-const ProjectPopover: FC<ProjectPopoverProps> = ({ projectButton }) => {
+const ProjectPopover = memo(() => {
+  const { open } = useProjectModal();
   const { data: projects } = useProjects();
   const pinnedProjects = projects?.filter((project) => project.pin);
 
@@ -27,7 +25,9 @@ const ProjectPopover: FC<ProjectPopoverProps> = ({ projectButton }) => {
         ))}
       </List>
       <Divider />
-      {projectButton}
+      <ButtonNoPadding onClick={open} type={"link"}>
+        创建项目
+      </ButtonNoPadding>
     </ContainerContainer>
   );
 
@@ -36,6 +36,6 @@ const ProjectPopover: FC<ProjectPopoverProps> = ({ projectButton }) => {
       <span>项目</span>
     </Popover>
   );
-};
+});
 
 export default ProjectPopover;

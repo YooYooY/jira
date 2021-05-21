@@ -13,18 +13,18 @@ import React, {
 } from "react";
 
 export interface SelectProps {
-  value: string;
+  value: string | number | undefined;
   width?: number;
-  onChange: (value: string) => void;
+  onChange: (value: string | number) => void;
 }
 
 export interface SelectItem {
-  value: string;
+  value: string | number | undefined;
   label: React.ReactNode;
 }
 
 export interface SelectContext {
-  selectValue: string;
+  selectValue: string | number | undefined;
   onSelect: (selectItem: SelectItem) => void;
 }
 
@@ -34,7 +34,7 @@ export const selectContext = createContext<SelectContext>({
 });
 
 const Select: FC<SelectProps> = ({
-  value,
+  value = "",
   onChange,
   width,
   children,

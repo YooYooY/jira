@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { selectContext } from "./Select";
 
 export interface OptionProps {
-  value: string;
+  value: string | number | undefined;
   label?: string;
 }
 

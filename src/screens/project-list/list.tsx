@@ -13,29 +13,25 @@ export interface ListProps {
   users: User[];
   loading: boolean;
   refresh?: () => void;
-  projectButton: React.ReactNode;
 }
 
 const List: FC<ListProps> = memo((props) => {
-  const { list, users, loading, refresh, projectButton } = props;
+  const { list, users, loading, refresh } = props;
   const { mutate } = useEditProject();
   const pinProject = useCallback(
-    (id: string) => (pin: boolean) => {
+    (id: number) => (pin: boolean) => {
       mutate({ id, pin }).then(() => refresh && refresh());
     },
     [mutate, refresh]
   );
 
-  const DropMemu = useCallback(
-    (project) => {
-      return (
-        <Menu>
-          <Menu.Item key={"edit"}>{projectButton}</Menu.Item>
-        </Menu>
-      );
-    },
-    [projectButton]
-  );
+  const DropMemu = useCallback((project) => {
+    return (
+      <Menu>
+        <Menu.Item key={"edit"}></Menu.Item>
+      </Menu>
+    );
+  }, []);
 
   return (
     <Table

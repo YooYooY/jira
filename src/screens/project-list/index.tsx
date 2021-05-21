@@ -7,20 +7,15 @@ import { useUser } from "hooks/useUser";
 import { useProjects } from "utils/project";
 import { Typography } from "antd";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
-import { useUrlQueryParam } from "hooks/useUrlQueryParam";
-import { Row } from "components/lib";
+import { useProjectModal, useProjectsSearchParams } from "./utils";
+import { Row, ButtonNoPadding } from "components/lib";
 
-interface ProjectListScreenProps {
-  projectButton: React.ReactNode;
-}
-
-export const ProjectListScreen: FC<ProjectListScreenProps> = ({
-  projectButton,
-}) => {
-  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
+export const ProjectListScreen = () => {
+  const [param, setParam] = useProjectsSearchParams();
   const { data: users } = useUser();
   const debounceParam = useDebounce(param, 200);
   const { isLoading, error, data: list, retry } = useProjects(debounceParam);
+  const { open } = useProjectModal();
 
   useDocumentTitle("项目列表", false);
 
@@ -28,14 +23,15 @@ export const ProjectListScreen: FC<ProjectListScreenProps> = ({
     <Container>
       <Row between={true}>
         <h1>项目列表</h1>
-        {projectButton}
+        <ButtonNoPadding onClick={open} type={"link"}>
+          创建项目
+        </ButtonNoPadding>
       </Row>
       <SearchPanel param={param} users={users || []} setParam={setParam} />
       {error && (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       )}
       <List
-        projectButton={projectButton}
         refresh={retry}
         loading={isLoading}
         users={users || []}
