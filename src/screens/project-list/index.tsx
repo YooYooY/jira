@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { useCallback } from "react";
 import SearchPanel from "./search-panel";
 import List from "./list";
 import { useDebounce } from "../../hooks/useDebounce";
@@ -7,15 +7,20 @@ import { useUser } from "hooks/useUser";
 import { useProjects } from "utils/project";
 import { Typography } from "antd";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
-import { useProjectModal, useProjectsSearchParams } from "./utils";
+import { useProjectsSearchParams } from "./utils";
 import { Row, ButtonNoPadding } from "components/lib";
+import { useDispatch } from "react-redux";
+import { projectListActions } from "./project-list.slice";
 
 export const ProjectListScreen = () => {
   const [param, setParam] = useProjectsSearchParams();
   const { data: users } = useUser();
   const debounceParam = useDebounce(param, 200);
   const { isLoading, error, data: list, retry } = useProjects(debounceParam);
-  const { open } = useProjectModal();
+  const disaptch = useDispatch();
+  const open = useCallback(() => {
+    disaptch(projectListActions.openProjectModal());
+  }, [disaptch]);
 
   useDocumentTitle("项目列表", false);
 

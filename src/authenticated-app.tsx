@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback } from "react";
 import { ProjectListScreen } from "./screens/project-list";
 import { useAuth } from "hooks/useAuth";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
@@ -31,14 +31,10 @@ export const AuthenticatedApp = () => {
 };
 
 const PageHeader = memo(() => {
-  const gotoHome = useCallback(() => {
-    resetRoute();
-  }, []);
-
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <ButtonNoPadding type={"link"} onClick={gotoHome}>
+        <ButtonNoPadding type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
         <ProjectPopover />

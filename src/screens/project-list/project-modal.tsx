@@ -1,9 +1,17 @@
-import React, { FC } from "react";
+import React, { useCallback } from "react";
 import { Button, Drawer } from "antd";
-import { useProjectModal } from "./utils";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  projectListActions,
+  selectProjectModalOpen,
+} from "./project-list.slice";
 
 const ProjectModal = () => {
-  const { projectModalOpen, close } = useProjectModal();
+  const dispatch = useDispatch();
+  const projectModalOpen = useSelector(selectProjectModalOpen);
+  const close = useCallback(() => {
+    dispatch(projectListActions.closeProjectModal());
+  }, [dispatch]);
 
   return (
     <Drawer onClose={close} visible={projectModalOpen} width="100%">

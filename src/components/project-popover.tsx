@@ -1,18 +1,23 @@
 import styled from "@emotion/styled";
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import { Divider, List, Popover, Typography } from "antd";
 import { useProjects } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
-import { useProjectModal } from "screens/project-list/utils";
+import { useDispatch } from "react-redux";
+import { projectListActions } from "screens/project-list/project-list.slice";
 
 const ContainerContainer = styled.div`
   min-width: 30rem;
 `;
 
 const ProjectPopover = memo(() => {
-  const { open } = useProjectModal();
+  // const { open } = useProjectModal();
   const { data: projects } = useProjects();
   const pinnedProjects = projects?.filter((project) => project.pin);
+  const dispatch = useDispatch();
+  const open = useCallback(() => {
+    dispatch(projectListActions.openProjectModal());
+  }, [dispatch]);
 
   const content = (
     <ContainerContainer>

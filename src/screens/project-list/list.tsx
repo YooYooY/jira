@@ -7,6 +7,8 @@ import { useEditProject } from "utils/project";
 import Pin from "components/pin";
 import { Dropdown, Menu } from "antd";
 import { ButtonNoPadding } from "components/lib";
+import { useDispatch } from "react-redux";
+import { projectListActions } from "./project-list.slice";
 
 export interface ListProps {
   list: Project[];
@@ -24,14 +26,23 @@ const List: FC<ListProps> = memo((props) => {
     },
     [mutate, refresh]
   );
+  const dispatch = useDispatch();
 
-  const DropMemu = useCallback((project) => {
-    return (
-      <Menu>
-        <Menu.Item key={"edit"}></Menu.Item>
-      </Menu>
-    );
-  }, []);
+  const DropMemu = useCallback(
+    (project) => {
+      const open = () => dispatch(projectListActions.openProjectModal());
+      return (
+        <Menu>
+          <Menu.Item key={"edit"}>
+            <ButtonNoPadding onClick={open} type={"link"}>
+              编辑
+            </ButtonNoPadding>
+          </Menu.Item>
+        </Menu>
+      );
+    },
+    [dispatch]
+  );
 
   return (
     <Table
