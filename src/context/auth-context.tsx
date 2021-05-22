@@ -1,10 +1,13 @@
-import React, { createContext } from "react";
+import React, { createContext, useCallback } from "react";
 import { AuthForm, User } from "../typing";
 import * as auth from "../auth-provider";
 import { http } from "../utils/http";
 import { useMount } from "../hooks/useMount";
 import useAsync from "hooks/useAsync";
 import { FullPageErrorFallback, FullPageLoading } from "components/lib";
+import * as authStore from "store/auth.slice";
+import { bootstrap, selectUser } from "store/auth.slice";
+import { useDispatch, useSelector } from "react-redux";
 
 export interface AuthContextProps {
   user: User | null;
@@ -29,31 +32,37 @@ export const AuthContext = createContext<AuthContextProps | undefined>(
 AuthContext.displayName = "AuthContext";
 
 export const AuthProvider: React.FC<{}> = ({ children }) => {
-  const {
-    data: user,
-    error,
-    isLoading,
-    isIdle,
-    isError,
-    run,
-    setData: setUser,
-  } = useAsync<User | null>();
+  const { error, isLoading, isIdle, isError, run } = useAsync<User | null>();
 
-  const login = (form: AuthForm) => auth.login(form).then(setUser);
-  const register = (form: AuthForm) => auth.register(form).then(setUser);
-  const logout = () => auth.logout().then(() => setUser(null));
+  const dispatch = useDispatch() as (...args: unknown[]) => Promise<User>;
 
   useMount(() => {
-    run(bootstrapUser());
+    run(dispatch(bootstrap()));
   });
 
   if (isIdle || isLoading) return <FullPageLoading />;
   if (isError) return <FullPageErrorFallback error={error} />;
 
-  return (
-    <AuthContext.Provider
-      children={children}
-      value={{ user, login, register, logout }}
-    />
+  return <div>{children}</div>;
+};
+
+export const useAuth = () => {
+  const dispatch = useDispatch() as (...args: unknown[]) => Promise<User>;
+  const user = useSelector(selectUser);
+  const login = useCallback(
+    (form: AuthForm) => dispatch(authStore.login(form)),
+    [dispatch]
   );
+  const register = useCallback(
+    (form: AuthForm) => dispatch(authStore.register(form)),
+    [dispatch]
+  );
+  const logout = useCallback(() => dispatch(authStore.logout()), [dispatch]);
+
+  return {
+    user,
+    login,
+    register,
+    logout,
+  };
 };

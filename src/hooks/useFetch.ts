@@ -1,4 +1,4 @@
-import { useAuth } from "hooks/useAuth";
+import { useAuth } from "context/auth-context";
 import { useState, useEffect } from "react";
 
 interface FetchResult<T> {
