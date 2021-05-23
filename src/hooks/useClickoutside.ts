@@ -6,7 +6,6 @@ export const useClickOutSide = (
 ) => {
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
-      event.preventDefault();
       let clickoutSide = false;
       if (!ref.current?.contains(event.target as HTMLElement)) {
         clickoutSide = true;

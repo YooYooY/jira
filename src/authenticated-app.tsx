@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { ProjectListScreen } from "./screens/project-list";
 import { useAuth } from "hooks/useAuth";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
@@ -9,7 +9,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "screens/project";
 import { resetRoute } from "utils";
 import { ButtonNoPadding } from "components/lib";
-import ProjectModal from "screens/project-list/project-modal";
+import { ProjectModal } from "screens/project-list/project-modal";
 import ProjectPopover from "components/project-popover";
 
 export const AuthenticatedApp = () => {

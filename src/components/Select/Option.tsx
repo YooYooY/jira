@@ -1,4 +1,4 @@
-import React, { FC, useContext, useCallback, useEffect } from "react";
+import React, { FC, useContext, useCallback } from "react";
 import classNames from "classnames";
 import { selectContext } from "./Select";
 

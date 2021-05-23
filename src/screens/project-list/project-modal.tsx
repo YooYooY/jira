@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import { Input, Drawer, Button, Spin, Form } from "antd";
-import { useProjectModal } from "./utils";
-import { useAddProject, useEditProject } from "utils/project";
-import { useForm } from "antd/lib/form/Form";
-import styled from "@emotion/styled";
-import { ErrorBox } from "components/lib";
+import { Button, Drawer, Form, Input, Spin } from "antd";
+import { useProjectModal } from "screens/project-list/utils";
 import UserSelect from "components/user-select";
+import { useAddProject, useEditProject } from "utils/project";
+import { useForm } from "antd/es/form/Form";
+import { ErrorBox } from "components/lib";
+import styled from "@emotion/styled";
 
-const ProjectModal = () => {
+export const ProjectModal = () => {
   const {
     projectModalOpen,
     close,
@@ -36,28 +36,29 @@ const ProjectModal = () => {
       forceRender={true}
       onClose={close}
       visible={projectModalOpen}
-      width="100%"
+      width={"100%"}
     >
       <Container>
         {isLoading ? (
-          <Spin size="large" />
+          <Spin size={"large"} />
         ) : (
           <>
             <h1>{title}</h1>
             <ErrorBox error={error} />
             <Form
               form={form}
-              layout="vertical"
+              layout={"vertical"}
               style={{ width: "40rem" }}
               onFinish={onFinish}
             >
               <Form.Item
-                label="名称"
-                name="name"
-                rules={[{ required: true, message: "请输入项目名称" }]}
+                label={"名称"}
+                name={"name"}
+                rules={[{ required: true, message: "请输入项目名" }]}
               >
-                <Input placeholder="请输入项目名称"></Input>
+                <Input placeholder={"请输入项目名称"} />
               </Form.Item>
+
               <Form.Item
                 label={"部门"}
                 name={"organization"}
@@ -94,5 +95,3 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-export default ProjectModal;
