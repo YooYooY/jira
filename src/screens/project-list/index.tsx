@@ -5,16 +5,15 @@ import { useDebounce } from "../../hooks/useDebounce";
 import styled from "@emotion/styled";
 import { useUser } from "hooks/useUser";
 import { useProjects } from "utils/project";
-import { Typography } from "antd";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useProjectModal, useProjectsSearchParams } from "./utils";
-import { Row, ButtonNoPadding } from "components/lib";
+import { Row, ButtonNoPadding, ErrorBox } from "components/lib";
 
 export const ProjectListScreen = () => {
   const [param, setParam] = useProjectsSearchParams();
   const { data: users } = useUser();
   const debounceParam = useDebounce(param, 200);
-  const { isLoading, error, data: list, retry } = useProjects(debounceParam);
+  const { isLoading, error, data: list } = useProjects(debounceParam);
   const { open } = useProjectModal();
 
   useDocumentTitle("项目列表", false);
@@ -27,16 +26,9 @@ export const ProjectListScreen = () => {
           创建项目
         </ButtonNoPadding>
       </Row>
-      <SearchPanel param={param} users={users || []} setParam={setParam} />
-      {error && (
-        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-      )}
-      <List
-        refresh={retry}
-        loading={isLoading}
-        users={users || []}
-        list={list || []}
-      />
+      <SearchPanel param={param} setParam={setParam} />
+      <ErrorBox error={error} />
+      <List loading={isLoading} users={users || []} list={list || []} />
     </Container>
   );
 };

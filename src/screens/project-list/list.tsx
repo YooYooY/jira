@@ -7,31 +7,40 @@ import { useEditProject } from "utils/project";
 import Pin from "components/pin";
 import { Dropdown, Menu } from "antd";
 import { ButtonNoPadding } from "components/lib";
+import { useProjectModal } from "screens/project-list/utils";
 
 export interface ListProps {
   list: Project[];
   users: User[];
   loading: boolean;
-  refresh?: () => void;
 }
 
 const List: FC<ListProps> = memo((props) => {
-  const { list, users, loading, refresh } = props;
+  const { list, users, loading } = props;
   const { mutate } = useEditProject();
-  const pinProject = useCallback(
-    (id: number) => (pin: boolean) => {
-      mutate({ id, pin }).then(() => refresh && refresh());
-    },
-    [mutate, refresh]
-  );
+  const { startEdit } = useProjectModal();
 
-  const DropMemu = useCallback((project) => {
-    return (
-      <Menu>
-        <Menu.Item key={"edit"}></Menu.Item>
-      </Menu>
-    );
-  }, []);
+  const pinProject = useCallback(
+    (id: number) => (pin: boolean) => mutate({ id, pin }),
+    [mutate]
+  );
+  const editProject = useCallback((id: number) => () => startEdit(id), [
+    startEdit,
+  ]);
+
+  const DropMemu = useCallback(
+    (project) => {
+      return (
+        <Menu>
+          <Menu.Item onClick={editProject(project.id)} key={"edit"}>
+            编辑
+          </Menu.Item>
+          <Menu.Item key={"delete"}>删除</Menu.Item>
+        </Menu>
+      );
+    },
+    [editProject]
+  );
 
   return (
     <Table

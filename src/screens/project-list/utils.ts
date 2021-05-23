@@ -1,5 +1,7 @@
 import { useUrlQueryParam } from "hooks/useUrlQueryParam";
 import { useCallback, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useProject } from "utils/project";
 
 // 项目列表搜索的参数
 export const useProjectsSearchParams = () => {
@@ -17,22 +19,32 @@ export const useProjectModal = () => {
   const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
     "projectCreate",
   ]);
+  const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParam([
+    "editingProjectId",
+  ]);
+  const [_, setUrlParams] = useSearchParams();
+  const { data: editingProject, isLoading } = useProject(
+    Number(editingProjectId)
+  );
 
   const open = useCallback(() => {
     setProjectCreate({ projectCreate: true });
   }, [setProjectCreate]);
 
   const close = useCallback(
-    () => setProjectCreate({ projectCreate: undefined }),
-    [setProjectCreate]
+    () => setUrlParams({ projectCreate: "", editingProjectId: "" }),
+    [setUrlParams]
   );
 
-  const projectModalOpen = useMemo(() => projectCreate === "true", [
-    projectCreate,
-  ]);
+  const startEdit = (id: number) =>
+    setEditingProjectId({ editingProjectId: id });
+
   return {
-    projectModalOpen,
+    projectModalOpen: projectCreate === "true" || Boolean(editingProjectId),
     open,
     close,
+    startEdit,
+    editingProject,
+    isLoading,
   };
 };

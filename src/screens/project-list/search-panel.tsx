@@ -1,20 +1,18 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import React, { FC, useCallback, memo } from "react";
-import { SearchProps } from "../../typing";
+import { User, Project } from "../../typing";
 import { Input, Form } from "antd";
-import Select from "../../components/Select";
+import UserSelect from "components/user-select";
 
-const { Option } = Select;
+type SearchParam = Pick<Project, "name">;
 
-const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
-  const handleChange = useCallback(
-    ({ value: personId }) => {
-      setParam({ ...param, personId });
-    },
-    [setParam, param]
-  );
+export interface SearchProps {
+  param: SearchParam;
+  setParam: (param: SearchParam) => void;
+}
 
+const SearchPanel: FC<SearchProps> = memo(({ param, setParam }) => {
   return (
     <Form css={{ marginBottom: "2rem" }} layout={"inline"}>
       <Form.Item>
@@ -31,14 +29,7 @@ const SearchPanel: FC<SearchProps> = memo(({ param, setParam, users }) => {
         />
       </Form.Item>
       <Form.Item>
-        <Select width={150} value={param.personId} onChange={handleChange}>
-          <Option value="">负责人</Option>
-          {users.map((user) => (
-            <Option key={user.id} value={user.id}>
-              {user.name}
-            </Option>
-          ))}
-        </Select>
+        <UserSelect />
       </Form.Item>
     </Form>
   );

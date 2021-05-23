@@ -22,10 +22,3 @@ export interface Project {
   organization: string;
   created: number;
 }
-
-type SearchParam = Pick<Project, "name" | "personId">;
-export interface SearchProps {
-  param: SearchParam;
-  setParam: (param: SearchParam) => void;
-  users: User[];
-}

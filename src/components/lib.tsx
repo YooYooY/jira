@@ -46,6 +46,17 @@ export const FullPageErrorFallback = ({ error }: { error: Error | null }) => (
   </FullPage>
 );
 
+// 类型守卫
+const isError = (value: any): value is Error => value?.messaeg;
+
+export const ErrorBox = ({ error }: { error: Error | unknown }) => {
+  if (isError(error)) {
+    return <Typography.Text>{error.message}</Typography.Text>;
+  } else {
+    return null;
+  }
+};
+
 export const ButtonNoPadding = styled(Button)`
   padding: 0;
 `;
