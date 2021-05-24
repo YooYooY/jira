@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+export type PersonId = number | string | undefined;
 
 export interface User {
   id: number;
@@ -17,7 +17,7 @@ export interface AuthForm {
 export interface Project {
   id: number;
   name: string;
-  personId: number | undefined;
+  personId: PersonId;
   pin: boolean;
   organization: string;
   created: number;

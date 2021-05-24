@@ -1,23 +1,28 @@
-import React, { useCallback } from "react";
+import React, { FC, useCallback } from "react";
 import Select from "components/Select";
-import { useUrlQueryParam } from "hooks/useUrlQueryParam";
 import { useUser } from "hooks/useUser";
+import { PersonId } from "typing";
+
+interface UserSelectProps {
+  personId: PersonId;
+  onChange?: (params: { value: PersonId; label: string }) => void;
+}
 
 const { Option } = Select;
 
-const UserSelect = () => {
-  const [param, setParam] = useUrlQueryParam(["personId"]);
+const UserSelect: FC<UserSelectProps> = ({ personId, onChange }) => {
   const { data: users } = useUser();
+
   const handleChange = useCallback(
-    ({ value: personId }) => {
-      setParam({ personId });
+    (params) => {
+      onChange && onChange(params);
     },
-    [setParam]
+    [onChange]
   );
 
   return (
     <div>
-      <Select width={150} value={param.personId || ""} onChange={handleChange}>
+      <Select width={150} value={personId || ""} onChange={handleChange}>
         <Option value="">负责人</Option>
         {users &&
           users.map((user) => (

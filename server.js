@@ -11,10 +11,16 @@ const server = http.createServer((req, res) => {
     const data = { user: { id: 5860741, name: "dd", token: "NTg2MDc0MQ==" } };
     res.json(data);
   });
+  const projects = createProject();
   router.get("/projects", () => {
-    const projects = createProject();
     res.json(projects);
   });
+  projects.forEach((project) => {
+    router.get(`/projects/${project.id}`, () => {
+      res.json(project);
+    });
+  });
+
   router.post("/login", () => {
     const data = { user: { id: 5860741, name: "dd", token: "NTg2MDc0MQ==" } };
     res.json(data);

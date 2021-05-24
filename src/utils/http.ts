@@ -56,6 +56,7 @@ export type UseHttp = () => <T>(...args: Parameters<typeof http>) => Promise<T>;
 
 export const useHttp: UseHttp = () => {
   const { user } = useAuth();
+
   return useCallback(
     (...[endpoint, config]: [string, Config?]) =>
       http(endpoint, { token: user?.token, ...config }),

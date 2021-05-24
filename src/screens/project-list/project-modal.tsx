@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Button, Drawer, Form, Input, Spin } from "antd";
-import { useProjectModal } from "screens/project-list/utils";
+import { useProjectModal } from "./utils";
 import UserSelect from "components/user-select";
 import { useAddProject, useEditProject } from "utils/project";
 import { useForm } from "antd/es/form/Form";
 import { ErrorBox } from "components/lib";
 import styled from "@emotion/styled";
+import { PersonId } from "typing";
 
 export const ProjectModal = () => {
   const {
@@ -14,21 +15,36 @@ export const ProjectModal = () => {
     editingProject,
     isLoading,
   } = useProjectModal();
+  const [personId, setPersonId] = useState(() =>
+    editingProject ? editingProject.personId : ""
+  );
+
   const useMutateProject = editingProject ? useEditProject : useAddProject;
 
   const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject();
+
   const [form] = useForm();
   const onFinish = (values: any) => {
-    mutateAsync({ ...editingProject, ...values }).then(() => {
+    mutateAsync({ ...editingProject, ...values, personId }).then(() => {
       form.resetFields();
       close();
     });
   };
 
-  const title = editingProject ? "编辑项目" : "创建项目";
+  const handleUserSelect = useCallback(
+    ({ value: personId }: { value: PersonId }) => {
+      setPersonId(personId);
+    },
+    []
+  );
 
   useEffect(() => {
     form.setFieldsValue(editingProject);
+    if (editingProject) {
+      setPersonId(editingProject.personId);
+    } else {
+      setPersonId("");
+    }
   }, [editingProject, form]);
 
   return (
@@ -43,7 +59,7 @@ export const ProjectModal = () => {
           <Spin size={"large"} />
         ) : (
           <>
-            <h1>{title}</h1>
+            <h1>{editingProject ? "编辑项目" : "创建项目"}</h1>
             <ErrorBox error={error} />
             <Form
               form={form}
@@ -68,7 +84,7 @@ export const ProjectModal = () => {
               </Form.Item>
 
               <Form.Item label={"负责人"} name={"personId"}>
-                <UserSelect />
+                <UserSelect personId={personId} onChange={handleUserSelect} />
               </Form.Item>
 
               <Form.Item style={{ textAlign: "right" }}>

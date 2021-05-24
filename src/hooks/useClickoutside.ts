@@ -12,6 +12,7 @@ export const useClickOutSide = (
       }
       callback && callback(clickoutSide);
     };
+
     document.addEventListener("click", handleClick, false);
     return () => {
       document.removeEventListener("click", handleClick, false);
