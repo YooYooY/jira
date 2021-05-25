@@ -3,11 +3,14 @@ import Table from "../../components/Table/Table";
 import { Project, User } from "../../typing";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import { useEditProject } from "utils/project";
+import { useDeleteProject, useEditProject } from "utils/project";
 import Pin from "components/pin";
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu, Modal } from "antd";
 import { ButtonNoPadding } from "components/lib";
-import { useProjectModal } from "screens/project-list/utils";
+import {
+  useProjectModal,
+  useProjectsQueryKey,
+} from "screens/project-list/utils";
 
 export interface ListProps {
   list: Project[];
@@ -17,29 +20,11 @@ export interface ListProps {
 
 const List: FC<ListProps> = memo((props) => {
   const { list, users, loading } = props;
-  const { mutate } = useEditProject();
-  const { startEdit } = useProjectModal();
+  const { mutate } = useEditProject(useProjectsQueryKey());
 
   const pinProject = useCallback(
     (id: number) => (pin: boolean) => mutate({ id, pin }),
     [mutate]
-  );
-  const editProject = useCallback((id: number) => () => startEdit(id), [
-    startEdit,
-  ]);
-
-  const DropMemu = useCallback(
-    (project) => {
-      return (
-        <Menu>
-          <Menu.Item onClick={editProject(project.id)} key={"edit"}>
-            编辑
-          </Menu.Item>
-          <Menu.Item key={"delete"}>删除</Menu.Item>
-        </Menu>
-      );
-    },
-    [editProject]
   );
 
   return (
@@ -93,11 +78,7 @@ const List: FC<ListProps> = memo((props) => {
         },
         {
           render(_value, project) {
-            return (
-              <Dropdown overlay={DropMemu(project)}>
-                <ButtonNoPadding type={"link"}>...</ButtonNoPadding>
-              </Dropdown>
-            );
+            return <More project={project} />;
           },
         },
       ]}
@@ -105,5 +86,41 @@ const List: FC<ListProps> = memo((props) => {
     />
   );
 });
+
+const More = ({ project }: { project: Project }) => {
+  const { startEdit } = useProjectModal();
+  const editProject = (id: number) => () => startEdit(id);
+  const { mutate: deleteProject } = useDeleteProject(useProjectsQueryKey());
+  const confirmDeleteProject = (id: number) => {
+    Modal.confirm({
+      title: "确定删除这个项目吗？",
+      content: "点击确定删除",
+      okText: "确定",
+      onOk() {
+        deleteProject({ id });
+      },
+    });
+  };
+
+  return (
+    <Dropdown
+      overlay={
+        <Menu>
+          <Menu.Item onClick={editProject(project.id)} key="eidt">
+            编辑
+          </Menu.Item>
+          <Menu.Item
+            onClick={() => confirmDeleteProject(project.id)}
+            key="delete"
+          >
+            删除
+          </Menu.Item>
+        </Menu>
+      }
+    >
+      <ButtonNoPadding type="link">...</ButtonNoPadding>
+    </Dropdown>
+  );
+};
 
 export default List;
