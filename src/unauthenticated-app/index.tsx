@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RegisterScreen } from "./register";
 import { LoginScreen } from "./login";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
@@ -10,6 +10,21 @@ export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   useDocumentTitle("请登录注册以继续");
+
+  // 切换登录条件，清空报错信息
+  useEffect(() => {
+    setError(null);
+  }, [isRegister]);
+
+  // 2s后清空报错信息
+  useEffect(() => {
+    let timer: any = null;
+    clearTimeout(timer);
+    setTimeout(setError, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [error]);
 
   return (
     <Container>
