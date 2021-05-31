@@ -33,6 +33,11 @@ export const ProjectModal = () => {
     });
   };
 
+  const closeModa = useCallback(() => {
+    form.resetFields();
+    close();
+  }, [form, close]);
+
   const handleUserSelect = useCallback(
     ({ value: personId }: { value: PersonId }) => {
       setPersonId(personId);
@@ -52,7 +57,7 @@ export const ProjectModal = () => {
   return (
     <Drawer
       forceRender={true}
-      onClose={close}
+      onClose={closeModa}
       visible={projectModalOpen}
       width={"100%"}
     >
