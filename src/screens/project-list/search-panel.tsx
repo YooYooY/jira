@@ -21,7 +21,7 @@ const SearchPanel: FC<SearchProps> = memo(({ param, setParam }) => {
   );
 
   return (
-    <Form css={{ marginBottom: "2rem" }} layout={"inline"}>
+    <Form style={{ marginBottom: "2rem" }} layout={"inline"}>
       <Form.Item>
         <Input
           type="text"
