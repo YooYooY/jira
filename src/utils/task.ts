@@ -12,5 +12,5 @@ export const useTasks = (param?: Partial<Task>) => {
 
 export const useTaskTypes = () => {
   const client = useHttp();
-  return useQuery(["taskTypes"], () => client<TaskType[]>("tasksTypes"));
+  return useQuery(["taskTypes"], () => client<TaskType[]>("taskTypes"));
 };
