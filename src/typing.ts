@@ -40,3 +40,8 @@ export interface Kanban {
   name: string;
   projectId: number;
 }
+
+export interface TaskType {
+  id: number;
+  name: string;
+}
