@@ -1,7 +1,5 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/react";
 import React, { FC, useCallback, memo } from "react";
-import { PersonId, Project } from "../../typing";
+import { Project } from "../../typing";
 import { Input, Form } from "antd";
 import UserSelect from "components/user-select";
 

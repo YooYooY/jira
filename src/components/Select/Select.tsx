@@ -13,9 +13,9 @@ import React, {
 } from "react";
 
 export interface SelectProps {
-  value: string | number | undefined;
+  value?: string | number;
   width?: number;
-  onChange: (value: string | number) => void;
+  onChange?: (params: { value: any; label: any }) => void;
 }
 
 export interface SelectItem {
