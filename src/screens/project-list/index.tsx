@@ -7,7 +7,12 @@ import { useUser } from "hooks/useUser";
 import { useProjects } from "utils/project";
 import { useDocumentTitle } from "hooks/useDocumentTitle";
 import { useProjectModal, useProjectsSearchParams } from "./utils";
-import { Row, ButtonNoPadding, ErrorBox } from "components/lib";
+import {
+  ButtonNoPadding,
+  ErrorBox,
+  Row,
+  ScreenContainer,
+} from "components/lib";
 
 export const ProjectListScreen = () => {
   const [param, setParam] = useProjectsSearchParams();
@@ -19,7 +24,7 @@ export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
 
   return (
-    <Container>
+    <ScreenContainer>
       <Row between={true}>
         <h1>项目列表</h1>
         <ButtonNoPadding onClick={open} type={"link"}>
@@ -29,12 +34,8 @@ export const ProjectListScreen = () => {
       <SearchPanel param={param} setParam={setParam} />
       <ErrorBox error={error} />
       <List loading={isLoading} users={users || []} list={list || []} />
-    </Container>
+    </ScreenContainer>
   );
 };
 
 // ProjectListScreen.whyDidYouRender = false;
-
-const Container = styled.div`
-  padding: 3.2rem;
-`;
