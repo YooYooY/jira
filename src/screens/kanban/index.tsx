@@ -39,7 +39,7 @@ export const KanbanScreen = () => {
             <ColumnsContainer>
               {kanbans?.map((kanban, index) => (
                 <Drag
-                  key={kanban.id}
+                  key={kanban.id || index}
                   draggableId={"kanban" + kanban.id}
                   index={index}
                 >

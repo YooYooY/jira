@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { useUser } from "hooks/useUser";
 import { PersonId } from "typing";
 import IdSelect, { IdSelectProps } from "./id-select";
@@ -19,6 +19,7 @@ const UserSelect: FC<UserSelectProps> = ({
       value={personId || ""}
       onChange={onChange}
       options={users}
+      defaultOptionName="请选择负责人"
       {...restProps}
     />
   );

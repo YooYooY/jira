@@ -3,7 +3,7 @@ import Select from "components/Select";
 
 export interface IdSelectProps extends ComponentProps<typeof Select> {
   defaultOptionName?: string;
-  options?: { name: string; id: number }[];
+  options?: { name: string; id: number | string }[];
 }
 
 const { Option } = Select;

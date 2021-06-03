@@ -81,7 +81,7 @@ export const KanbanColumn = React.forwardRef<
       </Row>
       <TasksContainer>
         {tasks?.map((task, index) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard key={task.id || index} task={task} />
         ))}
         <CreateTask kanbanId={kanban.id} />
       </TasksContainer>
