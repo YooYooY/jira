@@ -5,7 +5,6 @@ import { useTasksModal, useTasksQueryKey } from "./util";
 import { Button, Form, Input, Modal } from "antd";
 import UserSelect from "components/user-select";
 import TaskTypeSelect from "components/task-type-select";
-import { CloseOutlined } from "@ant-design/icons";
 
 const layout = {
   labelCol: { span: 8 },
@@ -86,7 +85,7 @@ const TaskModal = () => {
           style={{ fontSize: "14px" }}
           size="small"
           danger
-          icon={<CloseOutlined />}
+          type="link"
         >
           删除
         </Button>
