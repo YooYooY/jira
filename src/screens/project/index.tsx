@@ -14,7 +14,6 @@ const useRouteType = () => {
 
 export const ProjectScreen = () => {
   const routeType = useRouteType();
-
   const { projectId } = useParams();
   return (
     <Container>
@@ -34,7 +33,7 @@ export const ProjectScreen = () => {
           <Route path="/kanban" element={<KanbanScreen />} />
           {/*projects/:projectId/epic*/}
           <Route path="/epic" element={<EpicScreen />} />
-          <Navigate to={window.location.pathname + "/kanban"} replace={true} />
+          {<Navigate to={window.location.hash.substr(1)+"/kanban"} replace={true} />}
         </Routes>
       </Main>
     </Container>

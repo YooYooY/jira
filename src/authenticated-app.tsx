@@ -5,7 +5,7 @@ import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { Container, Header, HeaderLeft, HeaderRight, Main } from "./style";
 import { Button, Dropdown, Menu } from "antd";
 import { Route, Routes, Navigate } from "react-router";
-import { BrowserRouter as Router } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "screens/project";
 import { resetRoute } from "utils";
 import { ButtonNoPadding } from "components/lib";
