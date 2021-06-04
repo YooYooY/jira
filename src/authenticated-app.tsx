@@ -11,6 +11,7 @@ import { resetRoute } from "utils";
 import { ButtonNoPadding } from "components/lib";
 import { ProjectModal } from "screens/project-list/project-modal";
 import ProjectPopover from "components/project-popover";
+import { UserPopover } from "components/user-popover";
 
 export const AuthenticatedApp = () => {
   return (
@@ -42,7 +43,7 @@ const PageHeader = memo(() => {
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
         <ProjectPopover />
-        <h2>用户</h2>
+        <UserPopover />
       </HeaderLeft>
       <HeaderRight>
         <User />
