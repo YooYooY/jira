@@ -18926,7 +18926,7 @@
         );
       }
       var Me = {
-          serviceWorker: { url: "/mockServiceWorker.js", options: null },
+          serviceWorker: { url: "/jira/mockServiceWorker.js", options: null },
           quiet: !1,
           waitUntilReady: !0,
           onUnhandledRequest: "bypass",
