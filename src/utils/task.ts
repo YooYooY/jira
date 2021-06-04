@@ -4,7 +4,7 @@ import {
   useAddConfig,
   useDeleteConfig,
   useEditConfig,
-  useReorderConfig,
+  useReorderTaskConfig,
 } from "utils/use-optimistic-options";
 import { Task, TaskType } from "typing";
 import { SortProps } from "utils/kanban";
@@ -73,5 +73,5 @@ export const useReorderTask = (queryKey: QueryKey) => {
       data: params,
       method: "POST",
     });
-  }, useReorderConfig(queryKey));
+  }, useReorderTaskConfig(queryKey));
 };
