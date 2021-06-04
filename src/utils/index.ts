@@ -5,4 +5,4 @@ export const cleanObject = (obj: Record<string, any>): string => {
     .join("&");
 };
 
-export const resetRoute = () => (window.location.href = window.location.origin);
+export const resetRoute = () => (window.location.href = window.location.origin+process.env.PUBLIC_URL);

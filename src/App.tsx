@@ -7,6 +7,8 @@ import { FullPageErrorFallback, FullPageLoading } from "components/lib";
 const AuthenticatedApp = React.lazy(() => import("./authenticated-app"));
 const UnauthenticatedApp = React.lazy(() => import("./unauthenticated-app"));
 
+console.log("===",process.env)
+
 function App() {
   const { user } = useAuth();
 
