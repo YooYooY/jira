@@ -21822,10 +21822,12 @@
                       e(t.currentResult);
                     }),
                   e.cache &&
-                    t.client.getQueryCache().notify({
-                      query: t.currentQuery,
-                      type: "observerResultsUpdated",
-                    });
+                    t.client
+                      .getQueryCache()
+                      .notify({
+                        query: t.currentQuery,
+                        type: "observerResultsUpdated",
+                      });
               });
             }),
             t
@@ -22256,13 +22258,15 @@
                 (this.mutateOptions = t),
                 this.currentMutation &&
                   this.currentMutation.removeObserver(this),
-                (this.currentMutation = this.client.getMutationCache().build(
-                  this.client,
-                  Object(r.a)({}, this.options, {
-                    variables:
-                      "undefined" !== typeof e ? e : this.options.variables,
-                  })
-                )),
+                (this.currentMutation = this.client
+                  .getMutationCache()
+                  .build(
+                    this.client,
+                    Object(r.a)({}, this.options, {
+                      variables:
+                        "undefined" !== typeof e ? e : this.options.variables,
+                    })
+                  )),
                 this.currentMutation.addObserver(this),
                 this.currentMutation.execute()
               );

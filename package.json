@@ -2,6 +2,7 @@
   "name": "jira",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://yooyooy.github.io/jira",
   "scripts": {
     "start": "craco start",
     "build": "craco build",
