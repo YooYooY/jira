@@ -2,7 +2,9 @@
 
 ## 项目介绍
 
-使用 react17 开发的 Jira 项目，这事从 vue 转到 react 技术栈的过程中遇到相对复杂的项目，本项目的特点主要包括以下几个方面：
+使用 react17 开发的 Jira 项目，在线地址：[jira](https://yooyooy.github.io/jira)
+
+项目主要包含以下几个特点：
 
 - `service-worker`注册的本地服务器
 - `react-query`缓存和管理数据状态
