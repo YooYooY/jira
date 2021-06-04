@@ -46,3 +46,5 @@ export const UnauthenticatedApp = () => {
     </Container>
   );
 };
+
+export default UnauthenticatedApp;

@@ -31,6 +31,8 @@ export const AuthenticatedApp = () => {
   );
 };
 
+export default AuthenticatedApp;
+
 const PageHeader = memo(() => {
   const gotoHome = useCallback(() => {
     resetRoute();
