@@ -8,9 +8,9 @@
 
 - `service-worker`注册的本地服务器
 - `react-query`缓存和管理数据状态
-- `乐观更新(optimistic updates )`的机制
+- `乐观更新(optimistic updates)`的机制
 
-关于`乐观更新(optimistic updates )`，从 stackoverflow 上摘抄一位老哥的表述：
+关于`乐观更新(optimistic updates)`，从 stackoverflow 上摘抄一位老哥的表述：
 
 > In an optimistic update the UI behaves as though a change was successfully completed before receiving confirmation from the server that it actually was - it is being optimistic that it will eventually get the confirmation rather than an error. This allows for a more responsive user experience.
 
